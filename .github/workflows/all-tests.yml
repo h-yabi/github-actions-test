@@ -6,9 +6,6 @@ jobs:
   all-tests:
     timeout-minutes: 60
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./app-nuxt-3
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
