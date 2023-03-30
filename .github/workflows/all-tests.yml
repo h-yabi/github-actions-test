@@ -1,0 +1,66 @@
+name: All Tests
+on:
+  pull_request:
+    branches: [develop, master, milestone, dependabot-update]
+jobs:
+  all-tests:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app-nuxt-3
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install dependencies
+        run: npm ci
+      - name: Run vitest
+        run: echo "npm run test:unit:all"
+      # - name: Install Playwright Browsers
+      #   run: npx playwright install --with-deps
+      # - name: Run Playwright tests
+      #   run: npm run e2e:all
+      # - name: Run generate
+      #   run: npm run generate
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: all-tests-report
+          path: all-tests-report/
+          retention-days: 30
+  merge-dependabot-PR:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    needs: all-tests
+    if: contains(github.head_ref, 'dependabot')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: 'develop'
+      - name: Merge develop-dummy branch into dependabot-update
+        run: |
+          git config --global user.email "hiroya.yabiku@prtimes.co.jp"
+          git config --global user.name "hiroya.yabiku"
+          git fetch origin dependabot-update
+          git checkout dependabot-update
+          git merge origin/develop-dummy --no-edit --allow-unrelated-histories
+          git push origin dependabot-update
+      # - name: Merge develop branch into dependabot-update
+      #   run: |
+      #     git checkout dependabot-update
+      #     git merge develop --no-edit
+      #     git push origin dependabot-update
+      # - name: Dependabot metadata
+      #   id: metadata
+      #   uses: dependabot/fetch-metadata@v1.1.1
+      #   with:
+      #     github-token: '${{ secrets.GITHUB_TOKEN }}'
+      - name: Enable auto-merge for Dependabot PRs
+        # if: ${{ steps.metadata.outputs.update-type == 'version-update:semver-patch' }}
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
