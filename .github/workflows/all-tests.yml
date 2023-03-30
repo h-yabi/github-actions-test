@@ -1,7 +1,7 @@
 name: All Tests
 on:
   pull_request:
-    branches: [develop, master, milestone, dependabot-update]
+    # branches: [develop, master, milestone, dependabot-update]
 jobs:
   all-tests:
     timeout-minutes: 60
