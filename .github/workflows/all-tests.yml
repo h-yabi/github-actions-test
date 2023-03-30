@@ -40,13 +40,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: 'develop'
-      - name: Merge develop-dummy branch into dependabot-update
+      - name: Merge develop branch into dependabot-update
         run: |
           git config --global user.email "hiroya.yabiku@prtimes.co.jp"
           git config --global user.name "hiroya.yabiku"
           git fetch origin dependabot-update
           git checkout dependabot-update
-          git merge origin/develop-dummy --no-edit --allow-unrelated-histories
+          git merge origin/develop --no-edit --allow-unrelated-histories
           git push origin dependabot-update
       # - name: Merge develop branch into dependabot-update
       #   run: |
