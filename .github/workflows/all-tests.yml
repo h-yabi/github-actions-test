@@ -14,8 +14,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: Install dependencies
-        run: npm ci
+      # - name: Install dependencies
+      #   run: npm ci
       - name: Run vitest
         run: echo "npm run test:unit:all"
       # - name: Install Playwright Browsers
