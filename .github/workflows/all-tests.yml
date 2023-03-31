@@ -54,6 +54,7 @@ jobs:
           git config --global user.name "hiroya.yabiku"
           echo "git branch"
           git pull --rebase origin develop
+          git remote add dependabot-update https://github.com/h-yabi/github-actions-test
           git push dependabot-update
       - name: Enable auto-merge for Dependabot PRs
         # if: ${{ steps.metadata.outputs.update-type == 'version-update:semver-patch' }}
