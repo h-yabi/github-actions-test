@@ -52,8 +52,6 @@ jobs:
         run: |
           git config --global user.email "hiroya.yabiku@prtimes.co.jp"
           git config --global user.name "hiroya.yabiku"
-          git fetch origin dependabot-update
-          git checkout dependabot-update
           git rebase develop
           git push origin dependabot-update
       - name: Enable auto-merge for Dependabot PRs
