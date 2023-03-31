@@ -53,10 +53,8 @@ jobs:
           git config --global user.email "hiroya.yabiku@prtimes.co.jp"
           git config --global user.name "hiroya.yabiku"
           git fetch origin develop
-          git checkout dependabot-update
-          git merge origin/develop --allow-unrelated-histories
-          git commit -m "Merge develop into dependabot-update"
-          git push origin dependabot-update
+          git checkout -b dependabot-yabiku origin/dependabot-update
+          git push -u origin dependabot-yabiku
       - name: Enable auto-merge for Dependabot PRs
         # if: ${{ steps.metadata.outputs.update-type == 'version-update:semver-patch' }}
         run: gh pr merge --auto --merge "$PR_URL"
