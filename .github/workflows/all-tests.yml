@@ -52,7 +52,8 @@ jobs:
         run: |
           git config --global user.email "hiroya.yabiku@prtimes.co.jp"
           git config --global user.name "hiroya.yabiku"
-          git rebase develop
+          echo "git branch"
+          git pull --rebase origin develop
           git push dependabot-update
       - name: Enable auto-merge for Dependabot PRs
         # if: ${{ steps.metadata.outputs.update-type == 'version-update:semver-patch' }}
