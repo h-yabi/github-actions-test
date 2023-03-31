@@ -1,0 +1,21 @@
+name: Auto-merge develop to dependabot-update
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  auto_merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: develop
+
+      - name: Merge to dependabot-update
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 'Merge develop branch to dependabot-update branch'
+          commit_user_name: 'GitHub Actions'
+          commit_user_email: 'actions@github.com'
+          merge_branch: 'dependabot-update'
